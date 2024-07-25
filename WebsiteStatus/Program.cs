@@ -38,6 +38,8 @@ namespace WebsiteStatus
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddSingleton<IConfiguration>(hostContext.Configuration);
+                    services.AddHttpClient();
                 })
                 .UseSerilog();
         }
