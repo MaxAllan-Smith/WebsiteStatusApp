@@ -19,6 +19,7 @@ namespace WebsiteStatus
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             _httpClient.Dispose();
+            _logger.LogInformation("The HttpClient has been stopped....");
             return base.StopAsync(cancellationToken);
         }
 
