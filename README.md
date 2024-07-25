@@ -80,4 +80,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Max Allan-Smith - [max.allan-smith@mit-tech.co.uk](mailto:max.allan-smith@mit-tech.co.uk)
 
-Project Link: [https://github.com/yourusername/website-status-tracker](https://github.com/MaxAllan-Smith/WebsiteStatusApp)
+Project Link: [https://github.com/MaxAllan-Smith/website-status-tracker](https://github.com/MaxAllan-Smith/WebsiteStatusApp)
