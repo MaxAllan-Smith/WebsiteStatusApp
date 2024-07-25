@@ -23,7 +23,7 @@ This Worker Service is built using C# and .NET 8. It tracks the status of the we
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/MaxAllan-Smith/WebsiteStatusApp.git
+    git clone git@github.com:MaxAllan-Smith/WebsiteStatusApp.git
     ```
 
 2. Navigate to the project directory:
