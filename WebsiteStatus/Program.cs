@@ -35,11 +35,15 @@ namespace WebsiteStatus
         {
             return Host.CreateDefaultBuilder(args)
                 .UseWindowsService()
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                    services.AddSingleton<IConfiguration>(hostContext.Configuration);
                     services.AddHttpClient();
+                    services.AddSingleton<IConfiguration>(hostContext.Configuration);
                 })
                 .UseSerilog();
         }

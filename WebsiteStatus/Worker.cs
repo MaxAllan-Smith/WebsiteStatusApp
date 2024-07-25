@@ -1,9 +1,7 @@
-
-using Dapper;
-using Microsoft.Extensions.FileProviders.Physical;
-using System.Data;
 using System.Data.SqlClient;
+using Dapper;
 using WebsiteStatus.Models;
+using System.Data;
 
 namespace WebsiteStatus
 {
@@ -13,7 +11,7 @@ namespace WebsiteStatus
         private readonly string _connectionString;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public Worker(ILogger<Worker> logger, ConfigurationManager configuration, IHttpClientFactory httpClientFactory)
+        public Worker(ILogger<Worker> logger, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _connectionString = configuration.GetConnectionString("DefaultConnection");
