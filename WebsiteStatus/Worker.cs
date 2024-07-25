@@ -1,3 +1,10 @@
+
+using Dapper;
+using Microsoft.Extensions.FileProviders.Physical;
+using System.Data;
+using System.Data.SqlClient;
+using WebsiteStatus.Models;
+
 namespace WebsiteStatus
 {
     public class Worker : BackgroundService
@@ -17,6 +24,26 @@ namespace WebsiteStatus
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var httoClient = _httpClientFactory.CreateClient();
+                var result = await httoClient.GetAsync("https://www.ms-dev.co.uk");
+
+                var logEntry = new LogEntry
+                {
+                    TimeStamp = DateTime.Now,
+                    StatusCode = (int)result.StatusCode,
+                    Message = result.IsSuccessStatusCode ? "The website is up" : "The website is down"
+                };
+
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    DynamicParameters p = new DynamicParameters();
+                    p.Add("Timestamp", logEntry.TimeStamp);
+                    p.Add("StatusCode", logEntry.StatusCode);
+                    p.Add("Message", logEntry.Message);
+
+                    await connection.ExecuteAsync("spAddLogEntry", p, commandType: CommandType.StoredProcedure);
+                }
+
                 await Task.Delay(5000, stoppingToken);
             }
         }
