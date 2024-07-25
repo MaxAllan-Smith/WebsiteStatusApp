@@ -3,40 +3,20 @@ namespace WebsiteStatus
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private HttpClient _httpClient;
+        private readonly string _connectionString;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, ConfigurationManager configuration, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
-        }
-
-        public override Task StartAsync(CancellationToken cancellationToken)
-        {
-            _httpClient = new HttpClient();
-            return base.StartAsync(cancellationToken);
-        }
-
-        public override Task StopAsync(CancellationToken cancellationToken)
-        {
-            _httpClient.Dispose();
-            _logger.LogInformation("The HttpClient has been stopped....");
-            return base.StopAsync(cancellationToken);
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _httpClientFactory = httpClientFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var result = await _httpClient.GetAsync("https://www.ms-dev.co.uk");
-                if (result.IsSuccessStatusCode)
-                {
-                    _logger.LogInformation("The website is up. Status code: {StatusCode}", result.StatusCode);
-                }
-                else
-                {
-                    _logger.LogError("The website is down. Status code: {StatusCode}", result.StatusCode);
-                }
-
                 await Task.Delay(5000, stoppingToken);
             }
         }
